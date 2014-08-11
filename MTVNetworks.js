@@ -100,12 +100,12 @@ addKiller("MTVNetworks", {
 		
 		var addToPlaylist = function(track) {
 			var xhr = new XMLHttpRequest();
-			xhr.open("GET", "http://www." + (/gametrailers/.test(track.mgid) ? "gametrailers" : "cc") + ".com/feeds/mediagen/?uri=" + track.mgid + "&acceptMethods=hls", true);
+			xhr.open("GET", "http://media.mtvnservices.com/player/html5/mediagen/?uri=" + track.mgid + "&device=iPad", true);
 			delete track.mgid;
 			xhr.addEventListener("load", function() {
 				var xml = new DOMParser().parseFromString(xhr.responseText.replace(/^\s+/,""), "text/xml");
 				var src = xml.getElementsByTagName("src")[0];
-				if(src && getExt(src.textContent) === "m3u8") {
+				if(src) {
 					track.sources = [{"url": src.textContent, "format": "HLS", "isNative": true}];
 					playlist.push(track);
 				} else if(list.length === length) return;
